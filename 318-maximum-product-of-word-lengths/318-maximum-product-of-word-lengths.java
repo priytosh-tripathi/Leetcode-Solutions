@@ -1,5 +1,7 @@
-class Solution {
-    public int maxProduct(String[] words) {
+class Solution 
+{
+    public int maxProduct(String[] words) 
+    {
         int n = words.length;
         int[] masks = new int[n];
         
