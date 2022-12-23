@@ -28,12 +28,8 @@ class Solution
             ArrayList<Integer> temp = hm.get(x);
             Collections.sort(temp, Collections.reverseOrder());
             int sum = temp.get(0)+temp.get(1)+temp.get(2)+temp.get(3)+temp.get(4);
-            int avg = sum/5;
-            if(x!=0 || avg!=0)
-            {
             ans[i][0] = x;
-            ans[i][1] = avg; 
-            }
+            ans[i][1] = sum/5; 
             i++;
         }
         Arrays.sort(ans,(a,b)->a[0]-b[0]);
