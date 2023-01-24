@@ -1,45 +1,67 @@
 class Solution {
-     public int snakesAndLadders(int[][] board) {
-      int n = board.length;
-        int steps = 0;
-      Queue<Integer> q = new LinkedList<Integer>();
-      boolean visited[][] = new boolean[n][n];
-       q.add(1);
-       visited[n-1][0] = true;
-       while(!q.isEmpty()){
-         int size = q.size();
-        
-          for(int i =0; i <size; i++){
-              int x = q.poll();
-              if(x == n*n) return steps;
-              for(int k=1; k <=6; k++){
-                  if(k+x > n*n) break;
-                  int pos[] = findCoordinates(k+x, n);
-                  int r = pos[0];
-                  int c = pos[1];
-                  if(visited[r][c] == true) continue;
-                  visited[r][c] = true;
-                  if(board[r][c] == -1){
-                      q.add(k+x);
-                  }else{
-                      q.add(board[r][c]);
-                  }
-              }
-          }
-          
-        steps++;
-       
-      }    
-        return -1;
-    }
-    
-   public int[] findCoordinates(int curr, int n) {
-        int r = n - (curr - 1) / n  -1;
-        int c = (curr - 1) % n;
-        if (r % 2 == n % 2) {
-            return new int[]{r, n - 1 - c};
-        } else {
-            return new int[]{r, c};
+    class pair
+    {
+        int v, d;
+        pair(int v,int d)
+        {
+            this.v=v; this.d=d;
         }
+    }
+    public int snakesAndLadders(int[][] board) 
+    {
+        int l=board.length;
+        boolean[] vis= new boolean[l*l+1];
+        int[] b= new int[l*l+1];
+        int c=1; boolean flag=true;
+        for(int i=l-1;i>=0;i--)
+        {
+            if(flag)
+            {
+                for(int j=0;j<l;j++)
+                {
+                    b[c++]=board[i][j];
+                }
+                
+            }
+            else
+            {
+                for(int j=l-1;j>=0;j--)
+                {
+                    b[c++]=board[i][j];
+                }
+            }
+            flag=!flag;
+            
+        }
+        
+        Queue<pair>q= new LinkedList<>();
+        q.add(new pair(1,0));
+        vis[1]=true;
+        while(!q.isEmpty())
+        {
+            pair x=q.remove();
+            int val=x.v; int dis=x.d;
+            
+            if(val==l*l)
+            {
+                return dis;
+            }
+            for(int i=1;i<=6;i++)
+            {
+                if((val+i)<=l*l && !vis[val+i])
+                {
+                    pair t= new pair(val+i, dis+1);
+                    vis[val+i]=true;
+                    if(b[val+i]!=-1)
+                    {
+                        t.v=b[val+i];
+                    }
+                    q.add(t);
+                }
+                
+            }
+        }
+        return -1;
+        
     }
 }
